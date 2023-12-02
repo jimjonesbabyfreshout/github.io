@@ -1,0 +1,228 @@
+<html>
+    <head>
+    
+    </head>
+    <body>
+<script type="application/javascript">
+// Nextjs (App Router) API Javascript/Nodejs
+// app/api/chat/route.js
+
+import { OpenAI } from 'openai'
+import { OpenAIStream, StreamingTextResponse } from 'ai'
+
+const fireworks = new OpenAI({baseURL: 'https://api.fireworks.ai/inference/v1',apiKey: process.env.OPENAI_API_KEY})
+
+export async function POST(req) {
+  // Extract the `messages` from the body of the request
+  const { messages } = await req.json();
+
+  // Request the Fireworks API for the response based on the prompt
+  const response = await fireworks.chat.completions.create({
+    model: 'accounts/fireworks/models/llama70b-v2-chat',
+    stream: true,
+    messages: messages,
+    max_tokens: 1000,
+    temperature: 0.75,
+    top_p: 1,
+  })
+
+  // Convert the response into a friendly text-stream
+  const stream = OpenAIStream(response)
+
+  // Respond with the stream
+  return new StreamingTextResponse(stream)
+}</script>
+
+<script type="application/javascript">
+// Nextjs (App Router) Page Javascript/Nodejs 
+
+// app/page.js
+
+import Chat from './chat'
+
+export default function Page() {
+  return <Chat />
+}
+
+// app/chat.js
+
+'use client'
+
+import { useChat } from 'ai/react';
+
+export default function Chat() {
+   const { messages, input, handleInputChange, handleSubmit } = useChat({
+    api: '/api/chat'
+  })
+
+  return (
+    <div>
+      <ul>
+        {messages.map((m, index) => (
+          <li key={index}>
+            {m.role === 'user' ? 'User: ' : 'AI: '}
+            {m.content}
+          </li>
+        ))}
+      </ul>
+    
+      <form onSubmit={handleSubmit}>
+        <label>
+          Say something...
+          <input value={input} onChange={handleInputChange} />
+        </label>
+        <button type="submit">Send</button>
+      </form>
+    </div>
+  )
+}</script>
+
+<script type="application/javascript">
+// Nextjs (Pages) API Javascript/Nodejs 
+
+// pages/api/chat.js
+
+import { OpenAI } from 'openai'
+import { OpenAIStream, StreamingTextResponse } from 'ai'
+
+const fireworks = new OpenAI({baseURL: 'https://api.fireworks.ai/inference/v1', apiKey: process.env.OPENAI_API_KEY})
+
+export default async function (req) {
+  // Extract the `messages` from the body of the request
+  const { messages } = await req.body;
+
+  // Request the Fireworks API for the response based on the prompt
+  const response = await fireworks.chat.completions.create({
+    model: 'accounts/fireworks/models/llama70b-v2-chat',
+    stream: true,
+    messages: messages,
+    max_tokens: 1000,
+    temperature: 0.75,
+    top_p: 1,
+  })
+
+  // Convert the response into a friendly text-stream
+  const stream = OpenAIStream(response)
+
+  // Respond with the stream
+  return new StreamingTextResponse(stream)
+}</script>
+
+<script type="application/javascript">
+
+// Nextjs (Pages) Page Javascript/Nodejs 
+
+// pages/chat.js
+
+import { useChat } from 'ai/react';
+
+export default function Page() {
+   const { messages, input, handleInputChange, handleSubmit } = useChat({
+    api: '/api/chat'
+  })
+
+  return (
+    <div>
+      <ul>
+        {messages.map((m, index) => (
+          <li key={index}>
+            {m.role === 'user' ? 'User: ' : 'AI: '}
+            {m.content}
+          </li>
+        ))}
+      </ul>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Say something...
+          <input value={input} onChange={handleInputChange} />
+        </label>
+        <button type="submit">Send</button>
+      </form>
+    </div>
+  )
+}</script>
+
+<script type="application/javascript">
+
+// SvelteKit API Javascript/Nodejs 
+
+// src/routes/api/chat/+server.js
+
+import { OpenAI } from 'openai'
+import { OPENAI_API_KEY } from '$env/static/private'
+import { OpenAIStream, StreamingTextResponse } from 'ai'
+
+const fireworks = new OpenAI({baseURL: 'https://api.fireworks.ai/inference/v1', apiKey: process.env.OPENAI_API_KEY})
+
+export const POST = (async ({ request }) => {
+  // Extract the `messages` from the body of the request
+  const { messages } = await req.json();
+
+  // Request the Fireworks API for the response based on the prompt
+  const response = await fireworks.chat.completions.create({
+  model: 'accounts/fireworks/models/llama70b-v2-chat',
+  stream: true,
+  messages: messages,
+    max_tokens: 1000,
+    temperature: 0.75,
+    top_p: 1,
+  })
+
+  // Convert the response into a friendly text-stream
+  const stream = OpenAIStream(response)
+
+  // Respond with the stream
+  return new StreamingTextResponse(stream)
+})</script>
+
+
+
+
+<script>
+// SvelteKit Page Javascript/Nodejs 
+  let chat = ''
+
+  async function sendRequest() {
+    const response = await fetch('/api/chat', {
+      method: 'POST',
+      body: JSON.stringify({ messages: [{ role: 'user', content: 'Hello' }] }),
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+
+    chat = await response.text()
+  }
+</script>
+
+<div>chat</div>
+<button on:click={sendRequest}>Request</button>
+
+<script type="application/javascript">
+// Node.js Javascript/Nodejs 
+
+import { OpenAI } from 'openai'
+
+const fireworks = new OpenAI({baseURL: 'https://api.fireworks.ai/inference/v1', apiKey: process.env.OPENAI_API_KEY})
+
+// Request the Fireworks API for the response
+async function start() {
+  const response = await fireworks.chat.completions.create({
+    model: accounts/fireworks/models/${model.name},
+    stream: true,
+    promptOrMessages: messages,
+    max_tokens: 1000,
+    temperature: 0.75,
+    top_p: 1,
+  })
+
+  const result = await response.json();
+  const completion = result.choices[0].message.content
+  console.log(completion)
+}
+
+start()</script>
+
+
+</body>
+</html>
