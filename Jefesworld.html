@@ -16,8 +16,8 @@
   <script>var obj = document.getElementsByTagName("object")[0];
 obj.onload = function() {
   var innerDoc = obj.contentDocument || obj.contentWindow.document;
-  // var el = innerDoc.querySelector("div.!hidden.overflow-y-scroll.scrollbar-hide.sm:!flex.css-rrirfh");
- // el.parentNode.removeChild(el);
+  var el = innerDoc.querySelector("div.!hidden.overflow-y-scroll.scrollbar-hide.sm:!flex.css-rrirfh");
+ el.parentNode.removeChild(el);
   var elements = innerDoc.querySelectorAll('[src="/icons/flowgpt.svg"], [src="/logo_white.png"]');
   elements.forEach(function(element) {
     element.removeAttribute('src');
