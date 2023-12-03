@@ -1,0 +1,32 @@
+  <!DOCTYPE html>
+  <html lang="en" data-theme="dark" style="color-scheme: dark;"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+        <title>Embedded content</title>
+  </head>
+  <body>
+
+<script>
+    window.onload = function() {
+      var element = document.getElementById('olvy-tab-launcher-thirsty_grothendieck_XDHba');
+      if (element) {
+        element.parentNode.removeChild(element);
+      }
+    };
+  </script>
+
+  <script>var obj = document.getElementsByTagName("object")[0];
+obj.onload = function() {
+  var innerDoc = obj.contentDocument || obj.contentWindow.document;
+  // var el = innerDoc.querySelector("div.!hidden.overflow-y-scroll.scrollbar-hide.sm:!flex.css-rrirfh");
+ // el.parentNode.removeChild(el);
+  var elements = innerDoc.querySelectorAll('[src="/icons/flowgpt.svg"], [src="/logo_white.png"]');
+  elements.forEach(function(element) {
+    element.removeAttribute('src');
+  });
+};</script>
+        <object
+          data="https://flowgpt.com/p/jefetwisted-shit"
+          width="800"
+          height="1000"
+          type="text/html"
+        ></object>
+</html>
