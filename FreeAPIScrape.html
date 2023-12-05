@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Free Web Scraping API</title>
+</head>
+<body>
+    <h1>Free Web Scraping API</h1>
+    <p>Enter the URL of the website you want to scrape:</p>
+    <input id="urlInput" type="text" placeholder="https://example.com"><br><br>
+    <p>Enter the data you want to scrape (email, phone, user, name):</p>
+    <input id="dataInput" type="text" placeholder="email,phone,user,name"><br><br>
+    <button onclick="scrapeData()">Scrape Data</button>
+    <p id="result"></p>
+    <script>
+        function scrapeData() {
+            var url = document.getElementById('urlInput').value;
+            var data = document.getElementById('dataInput').value;
+            var apiUrl = 'https://api.webscrapingapi.com/v1?api_key=your_api_key&url=' + url + '&autoparse=true&keep_headers=true&keep_status_code=true&jsonpath=%5B%22' + data + '%22%5D';
+
+            var request = new XMLHttpRequest();
+            request.open('GET', apiUrl, true);
+            request.onload = function() {
+                if (request.status >= 200 && request.status < 400) {
+                    var data = JSON.parse(request.responseText);
+                    document.getElementById('result').innerHTML = data;
+                } else {
+                    document.getElementById('result').innerHTML = 'Error: Could not connect to the API.';
+                }
+            };
+            request.send();
+        }
+    </script>
+</body>
+</html>
