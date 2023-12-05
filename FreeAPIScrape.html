@@ -15,7 +15,7 @@
         function scrapeData() {
             var url = document.getElementById('urlInput').value;
             var data = document.getElementById('dataInput').value;
-            var apiUrl = 'https://api.webscrapingapi.com/v1?api_key=your_api_key&url=' + url + '&autoparse=true&keep_headers=true&keep_status_code=true&jsonpath=%5B%22' + data + '%22%5D';
+            var apiUrl = 'https://api.scraperapi.com/?api_key=412643c45d0b079c34c2a0d153e9501e' + url + '&autoparse=true&keep_headers=true&keep_status_code=true&jsonpath=%5B%22' + data + '%22%5D';
 
             var request = new XMLHttpRequest();
             request.open('GET', apiUrl, true);
