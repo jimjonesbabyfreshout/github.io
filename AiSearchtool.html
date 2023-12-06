@@ -2,21 +2,23 @@
 <html>
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script>
-$(function(){
-  $('body').load('https://visualsearch.org/', function(response, status, xhr){
-    var currentHost = window.location.protocol + '//' + window.location.host;
-    var loadedUrl = xhr.getResponseHeader('X-Proxy-Url');
-    $(response).find('a').each(function() {
-      var href = $(this).attr('href');
-      if (href.startsWith('http') && !href.startsWith(currentHost)) {
-        $(this).attr('href', loadedUrl + '?url=' + href);
-      }
-    });
-  });
-});
-</script>
 </head>
-<body>
+<!-- In the parent window -->
+<iframe id="myIframe" src="https://visualsearch.org"></iframe>
+<script>
+    var iframe = document.getElementById('myIframe');
+
+    // Listen for messages from the iframe
+    window.addEventListener('message', function(e) {
+        if (e.origin !== "https://visualsearch.org")
+            return;
+
+        if (e.data === "changeBackground") {
+            document.body.style.background = "black";
+        }
+    });
+// Send a message to the iframe
+   iframe.contentWindow.postMessage("changeBackground", "https://visualsearch.org");
+</script>
 </body>
 </html>
