@@ -4,7 +4,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 $(function(){
-  $('body').load('https://visualsearch.org/index.html', function(response, status, xhr){
+  $('body').load('https://visualsearch.org/', function(response, status, xhr){
     var currentHost = window.location.protocol + '//' + window.location.host;
     var loadedUrl = xhr.getResponseHeader('X-Proxy-Url');
     $(response).find('a').each(function() {
