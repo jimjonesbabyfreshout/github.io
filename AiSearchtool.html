@@ -13,12 +13,7 @@
                 $(“#content”).html(content);
 
                 // Remove URLs
-                $(“#content a”).each(function() {
-                    var href = $(this).attr(“href”);
-                    if (href && href.indexOf(“http”) === 0) {
-                        $(this).replaceWith($(this).html());
-                    }
-                });
+// $(“#content a”).each(function() { var href = $(this).attr(“href”); if (href && href.indexOf(“http”) === 0) { $(this).replaceWith($(this).html()); } });
             });
         });
     </script>
