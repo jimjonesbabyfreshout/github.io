@@ -3,8 +3,16 @@
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
-<!-- In the parent window -->
-<iframe src="https://visualsearch.org" frameborder="0"  seamless="seamless"></iframe>
+<body>
+   <!-- In the parent window -->
+   <frameset rows="100%,*">
+        <frame src="https://visualsearch.org">
+        <noframes>
+            <body>
+                Your browser does not support frames. To wiew this page please use supporting browsers.
+            </body>
+        </noframes>
+    </frameset>
 <script>
     var iframe = document.getElementById('myIframe');
 
