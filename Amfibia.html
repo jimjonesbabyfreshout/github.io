@@ -1,48 +1,34 @@
   <!DOCTYPE html>
   <html lang="en" data-theme="dark" style="color-scheme: dark;"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
        <title>Amphibia</title>
-  </head>
-  <body>
-<script>
-    window.onload = function() {
-      var element = document.getElementById('olvy-tab-launcher-thirsty_grothendieck_XDHba');
-      if (element) {
-        element.parentNode.removeChild(element);
-      }
-    };
-  </script>
-  <script>var obj = document.getElementsByTagName("object")[0];
-obj.onload = function() {
-  var innerDoc = obj.contentDocument || obj.contentWindow.document;
-  var el = innerDoc.querySelector("div.!hidden.overflow-y-scroll.scrollbar-hide.sm:!flex.css-rrirfh");
- el.parentNode.removeChild(el);
-  var elements = innerDoc.querySelectorAll('div:contains("ads")');
-  elements.forEach(function(element) {
-    element.removeAttribute('src');
-  }); };</script>
-        <object data="https://kimcartoon.li/Cartoon/Amphibia/" width="800" height="1000" type="text/html"></object>
-  
-     <script>
-        window.onload = function() {
-            // fetch('https://kimcartoon.li/Cartoon/Amphibia/')
-              //  .then(response => response.text())
-                //  .then(html => {
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(html, 'text/html');
+    <style>
+        body, html {
+            margin: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        #fullscreen-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <iframe id="fullscreen-frame" src="https://kimcartoon.li/Cartoon/Amphibia/"></iframe>
 
-                    // Remove all script tags
-                    const scripts = doc.querySelectorAll('script');
-                    scripts.forEach(script => script.remove());
+    <script>
+        // Wait for the iframe to load
+        document.getElementById('fullscreen-frame').onload = function() {
+            // Get the iframe document
+            var iframeDocument = this.contentDocument || this.contentWindow.document;
 
-                    // Remove all divs containing 'ads'
-                    const ads = doc.querySelectorAll('div:contains("ads")');
-                    ads.forEach(ad => ad.remove());
-
-                    // Now you can do something with the modified DOM, like display it
-                    document.body.innerHTML = '';
-                    document.body.appendChild(doc.body);
-                });
-        // };
-    </script> 
+            // Remove all ads
+            var ads = iframeDocument.getElementsByClassName('ad');
+            for (var i = 0; i < ads.length; i++) {
+                ads[i].parentNode.removeChild(ads[i]);
+            }
+        };
+    </script>
 </body>
 </html>
