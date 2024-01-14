@@ -1,63 +1,36 @@
-  <!DOCTYPE html>
-  <html lang="en" data-theme="dark" style="color-scheme: dark;"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
-       <title>Amphibia</title>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Amphibia on KimCartoon.li without Ads and Popups</title>
+  <script>
+    // Function to block ads and popups
+    function blockAdsAndPopups() {
+      // Block ads using CSS
+      document.querySelectorAll('iframe[src*="ad"]').forEach(frame => frame.remove());
+      document.querySelectorAll('div[id*="ad"]').forEach(div => div.remove());
 
-    <style>
-        body, html {
-            margin: 0;
-            height: 100%;
-            overflow: hidden;
-        }
-        #fullscreen-frame {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-    </style>
-    <style>
-        .ad, .redirect {
-            display: none !important;
-        }
-    </style>
-    <script>
-        window.onload = function() {
-            // Remove ads
-            var ads = document.getElementsByClassName('ad');
-            for(var i = 0; i < ads.length; i++) {
-                ads[i].style.display = 'none';
-            }
+      // Block popups using JavaScript
+      window.open = function() { return false; };
+    }
 
-            // Prevent redirects
-            var links = document.getElementsByTagName('a');
-            for(var i = 0; i < links.length; i++) {
-                links[i].onclick = function(e) {
-                    e.preventDefault();
-                };
-            }
-        };
-    </script>
+    // Function to allow videos to play
+    function allowVideosToPlay() {
+      // Allow videos to play using CSS
+      document.querySelectorAll('video').forEach(video => video.removeAttribute('controls'));
+
+      // Allow videos to play using JavaScript
+      document.querySelectorAll('video').forEach(video => video.play());
+    }
+
+    // Load the blockAdsAndPopups function when the page loads
+    window.onload = blockAdsAndPopups;
+
+    // Load the allowVideosToPlay function after the page loads
+    window.addEventListener('load', allowVideosToPlay);
+  </script>
 </head>
 <body>
-    <iframe id="fullscreen-frame" src="https://kimcartoon.li/Cartoon/Amphibia/"></iframe>
-
-    <script>
-        // Wait for the iframe to load
-        document.getElementById('fullscreen-frame').onload = function() {
-            // Get the iframe document
-            var iframeDocument = this.contentDocument || this.contentWindow.document;
-
-            // Remove all ads
-            var ads = iframeDocument.getElementsByClassName('ad');
-            for (var i = 0; i < ads.length; i++) {
-                ads[i].parentNode.removeChild(ads[i]);
-            }
-
-            // Allow videos to play
-            var videos = iframeDocument.getElementsByTagName('video');
-            for (var i = 0; i < videos.length; i++) {
-                videos[i].controls = true;
-            }
-        };
-    </script>
+  <!-- Embed the Amphibia video from KimCartoon.li -->
+  <iframe src="https://kimcartoon.li/Cartoon/Amphibia/" width="100%" height="100%" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
 </body>
 </html>
