@@ -1,36 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Amphibia on KimCartoon.li without Ads and Popups</title>
-  <script>
-    // Function to block ads and popups
-    function blockAdsAndPopups() {
-      // Block ads using CSS
-      document.querySelectorAll('iframe[src*="ad"]').forEach(frame => frame.remove());
-      document.querySelectorAll('div[id*="ad"]').forEach(div => div.remove());
-
-      // Block popups using JavaScript
-      window.open = function() { return false; };
-    }
-
-    // Function to allow videos to play
-    function allowVideosToPlay() {
-      // Allow videos to play using CSS
-      document.querySelectorAll('video').forEach(video => video.removeAttribute('controls'));
-
-      // Allow videos to play using JavaScript
-      document.querySelectorAll('video').forEach(video => video.play());
-    }
-
-    // Load the blockAdsAndPopups function when the page loads
-    window.onload = blockAdsAndPopups;
-
-    // Load the allowVideosToPlay function after the page loads
-    window.addEventListener('load', allowVideosToPlay);
-  </script>
+<style>
+iframe[src*="kimcartoon.li"] #overlay-ad {  display: none !important;  display: block;  width: 100%;  height: 100%;  pointer-events: none; }</style>
 </head>
 <body>
-  <!-- Embed the Amphibia video from KimCartoon.li -->
-  <iframe src="https://kimcartoon.li/Cartoon/Amphibia/" width="100%" height="100%" sandbox="allow-same-origin allow-scripts allow-popups allow-forms" referrerpolicy="origin"></iframe>
+<script>
+Copy
+    
+    // Get the iframe element
+    var iframe = document.querySelector('iframe[src*="kimcartoon.li"]');
+    
+    // Add an event listener for the 'load' event
+    iframe.addEventListener('load', function() {
+      // Get the iframe's document object
+      var iframeDocument = iframe.contentDocument;
+    
+      // Remove the overlay ad from the iframe's document
+      iframeDocument.querySelector('#overlay-ad').remove();
+    });
+
+    // Get the iframe element
+    var iframe = document.querySelector('iframe[src*="kimcartoon.li"]');
+    
+    // Add an event listener for the 'load' event
+    iframe.addEventListener('load', function() {
+      // Get the iframe's document object
+      var iframeDocument = iframe.contentDocument;
+    
+      // Remove all ads and popups from the iframe's document
+      iframeDocument.querySelectorAll('iframe, div[id*="ad"], div[class*="ad"]').forEach(function(element) {
+        element.remove();
+      });
+    });</script>
+<iframe src="https://kimcartoon.li/Cartoon/Amphibia/" width="100%" height="100%" sandbox="allow-same-origin allow-scripts allow-popups allow-forms" referrerpolicy="origin"></iframe>
 </body>
 </html>
