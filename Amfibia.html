@@ -14,6 +14,28 @@
             border: none;
         }
     </style>
+    <style>
+        .ad, .redirect {
+            display: none !important;
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            // Remove ads
+            var ads = document.getElementsByClassName('ad');
+            for(var i = 0; i < ads.length; i++) {
+                ads[i].style.display = 'none';
+            }
+
+            // Prevent redirects
+            var links = document.getElementsByTagName('a');
+            for(var i = 0; i < links.length; i++) {
+                links[i].onclick = function(e) {
+                    e.preventDefault();
+                };
+            }
+        };
+    </script>
 </head>
 <body>
     <iframe id="fullscreen-frame" src="https://kimcartoon.li/Cartoon/Amphibia/"></iframe>
