@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Remove Ads</title>
+</head>
+<body>
+    <script>
+        window.onload = function() {
+            fetch('https://kimcartoon.li/Cartoon/Amphibia/')
+                .then(response => response.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+
+                    // Remove all script tags
+                    const scripts = doc.querySelectorAll('script');
+                    scripts.forEach(script => script.remove());
+
+                    // Remove all divs containing 'ads'
+                    const ads = doc.querySelectorAll('div:contains("ads")');
+                    ads.forEach(ad => ad.remove());
+
+                    // Now you can do something with the modified DOM, like display it
+                    document.body.innerHTML = '';
+                    document.body.appendChild(doc.body);
+                });
+        };
+    </script>
+</body>
+</html>
