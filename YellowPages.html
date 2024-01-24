@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Yellowpages Data Extractor</title> 
+<style>body {
+  background-color: #222;
+  color: #fff;
+}
+h1, h2 {
+  color: #fff;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+label {
+  color: #fff;
+}
+input, select {
+  background-color: #333;
+  color: #fff;
+  padding: 5px;
+  border: 1px solid #555;
+  border-radius: 5px;
+}
+button {
+  background-color: #444;
+  color: #fff;
+  padding: 5px 10px;
+  border: 1px solid #666;
+  border-radius: 5px;
+  cursor: pointer;
+}
+#results {
+  background-color: #333;
+  padding: 10px;
+  margin-top: 20px;
+}
+#data-output { background-color: #444;
+  color: #fff;
+  padding: 10px;
+  font-family: monospace;
+}</style>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Yellowpages Data Extractor</h1>
+    <form id="form">
+      <label for="url">Yellowpages URL:</label>
+      <input type="text" id="url" placeholder="Enter the Yellowpages URL">
+
+      <label for="data-type">Data Type:</label>
+      <select id="data-type">
+        <option value="business-names">Business Names</option>
+        <option value="addresses">Addresses</option>
+        <option value="phone-numbers">Phone Numbers</option>
+        <option value="website-urls">Website URLs</option>
+      </select>
+
+      <button type="submit">Extract Data</button>
+    </form>
+
+    <div id="results">
+      <h2>Extracted Data:</h2>
+      <pre id="data-output"></pre>
+    </div>
+  </div>
+
+  <script>
+    // Handle form submission
+    const form = document.getElementById('form');
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      // Get the Yellowpages URL and data type from the form
+      const url = document.getElementById('url').value;
+      const dataType = document.getElementById('data-type').value;
+
+      // Extract the data using the provided URL and data type
+      extractData(url, dataType);
+    });
+
+    // Function to extract data from the Yellowpages website
+    const extractData = (url, dataType) => {
+      // Display loading message
+      document.getElementById('data-output').innerHTML = 'Loading...';
+
+      // Use a web scraping library (e.g., BeautifulSoup) to extract the targeted data
+      // This is a placeholder for the actual web scraping code
+
+      // Save the extracted data in the desired format (e.g., JSON, CSV)
+      // This is a placeholder for the data saving code
+
+      // Display the extracted data in the results div
+      document.getElementById('data-output').innerHTML = extractedData;
+    };
+  </script>
+</body>
+</html>
