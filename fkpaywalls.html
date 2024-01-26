@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8"><meta content="width=device-width,initial-scale=1.0" name="viewport"><meta content="telephone=no" name="format-detection"><meta content="address=no" name="format-detection"><meta content="dark" name="color-scheme"><meta content="origin" name="referrer">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  <title>Jeffy's Fuck Paywalls And Ads MothaFuckas</title>
+
+  <style>
+    :root {
+      --dark-blue: #003049;
+      --light-blue: #0077b6;
+      --white: #ffffff;
+      --font-family: "Product Sans", "Open Sans", sans-serif;
+    }
+
+    body {
+      background-color: var(--dark-blue);
+      color: var(--white);
+      font-family: var(--font-family);
+    }
+
+    div.centered {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    input[type=text] {
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid var(--light-blue);
+      border-radius: 5px;
+      width: 100%;
+      font-size: 1.2rem;
+      background-color: var(--dark-blue);
+      color: var(--white);
+    }
+
+    input[type="submit"] {
+      /* remove default behavior */
+      -webkit-appearance: none;
+      appearance: none;
+
+      /* usual styles */
+      padding: 10px 20px;
+      border: none;
+      background-color: var(--light-blue);
+      color: var(--white);
+      font-weight: bold;
+      border-radius: 5px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+    }
+
+    input[type="submit"]:hover {
+      background-color: var(--dark-blue);
+      color: var(--light-blue);
+    }
+
+    #article {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.8rem;
+      text-align: justify;
+      background-color: var(--dark-blue);
+      color: var(--white);
+    }
+  </style>
+</head>
+
+<body>
+<script>
+window.onload = function() {
+  var scripts = document.getElementsByTagName(‘script’);
+  for (var i = scripts.length - 1; i >= 0; i--) {
+    if (scripts[i].src === ‘[https://tiiny.host/ad-script.js’](https://tiiny.host/ad-script.js%E2%80%99)) {
+      scripts[i].parentNode.removeChild(scripts[i]);
+    }
+  }
+};</script>
+  <div class="centered">
+    <form id="form">
+      <h1>Bypass Paywalls and Ads Motha Fuckas</h1>
+      <br />
+      <label for="url">Enter Haten Websites URL:</label>
+      <input type="text" name="url" required>
+      <input type="hidden" name="url" value="https://example.com/article">
+      <input type="submit" value="submit" />
+    </form>
+  </div>
+
+  <div id="article"></div>
+
+  <script>
+    const form = document.getElementById("form");
+    const article = document.getElementById("article");
+
+    const googlebotHeaders = {
+      "User-Agent":
+        "Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/W.X.Y.Z Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+    };
+
+    const adBlockRules = [
+      {
+        trigger: {
+          url: "*",
+        },
+        action: {
+          type: "block",
+        },
+      },
+    ];
+
+    const filter = {
+      adblock: {
+        rules: adBlockRules,
+      },
+    };
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      // Get the value of the visible input field
+      const url = document.querySelector('input[name="url"]').value;
+
+      fetch(url, {
+        headers: googlebotHeaders,
+      })
+        .then((res) => res.text())
+        .then((data) => {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(data, "text/html");
+
+          // Apply ad blocking rules
+          filter.adblock.elementHideSelector = "body";
+          chrome.webRequest.filterResponseData(filter);
+
+          // Remove unwanted elements
+          const unwantedElements = doc.querySelectorAll("script, style, header, footer, aside, nav");
+          unwantedElements.forEach((el) => el.remove());
+
+          // Extract article content
+          const articleContent = doc.querySelector("article, main");
+
+          // Display article content
+          article.innerHTML = articleContent.innerHTML;
+        })
+        .catch((err) => {
+          alert("An error occurred. Please try again.");
+        });
+    });
+  </script>
+</body>
+
+</html>
