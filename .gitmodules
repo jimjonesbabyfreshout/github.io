@@ -1,0 +1,3 @@
+[submodule "wonderlox.ai"]
+	path = wonderlox.ai
+	url = ssh://wonderlox.ai/
