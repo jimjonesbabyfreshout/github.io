@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Advanced Relative Link Converter</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <style type="text/css">
+    #advanced_options_container,
+    #result {
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    body {
+      font-family: sans-serif;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+
+    .container {
+      max-width: 600px;
+      padding: 30px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin-bottom:
+      margin-bottom: 30px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    label {
+      margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #666;
+      border-radius: 4px;
+    }
+
+    textarea {
+      height: 200px;
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    #advanced_options_container {
+      display: none;
+    }
+
+    #advanced_options_container label {
+      margin-right: 10px;
+    }
+
+    #advanced_options_container input[type="checkbox"] {
+      margin-right: 5px;
+    }
+
+    body.dark-mode {
+      background-color: #121212;
+      color: #fff;
+    }
+
+    input[type="submit"] {
+      padding: 10px 20px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      color: #fff;
+      cursor: pointer;
+      background-color: #666;
+    }
+
+    #advanced_options_container,
+    #result {
+      background-color: #222;
+    }
+  </style>
+</head>
+<body class="dark-mode">
+  <script>
+    const toggleDarkModeButton = document.getElementById('toggle-dark-mode');
+
+    toggleDarkModeButton.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+    });
+  </script>
+  <button id="toggle-dark-mode">Toggle Dark Mode</button>
+  <div class="container">
+    <h1>Advanced Relative Link Converter</h1>
+    <form id="form">
+      <div class="input-group">
+        <label for="base_url">Base URL:</label>
+        <input type="text" id="base_url" name="base_url">
+      </div>
+      <div class="input-group">
+        <label for="html">HTML:</label>
+        <textarea id="html" name="html"></textarea>
+      </div>
+      <div class="button-group">
+        <input type="submit" value="Convert">
+        <label for="advanced_options">Advanced Options</label>
+        <input type="checkbox" id="advanced_options">
+      </div>
+    </form>
+    <div id="result"></div>
+    <div id="advanced_options_container"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById('form');
+    const result = document.getElementById('result');
+    const advancedOptions = document.getElementById('advanced_options');
+    const advancedOptionsContainer = document.getElementById('advanced_options_container');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const baseUrl = document.getElementById('base_url').value;
+      const html = document.getElementById('html').value;
+
+      if (!baseUrl || !html) {
+        alert('Please provide a base URL and HTML.');
+        return;
+      }
+
+      const convertedHtml = rewriteForGitHubPages(html, baseUrl);
+
+      result.innerHTML = convertedHtml;
+    });
+
+    const rewriteForGitHubPages = (html, baseUrl) => {
+      return html.replace(/href="([^"]+)"/g, (link) => {
+        const href = link.slice(6, -1);
+        if (!href.startsWith('http')) {
+          const newLink = urlJoin(baseUrl, href);
+          return `href="${newLink}"`;
+        }
+        return link;
+      });
+    };
+
+    const urlJoin = (base, relative) => {
+      return new URL(relative, base).href;
+    };
+
+    advancedOptions.addEventListener('change', (event) => {
+      if (event.target.checked) {
+        advancedOptionsContainer.style.display = 'block';
+      } else {
+        advancedOptionsContainer.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
