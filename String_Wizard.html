@@ -1,10 +1,69 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>String Sleuth</title>
   <link rel="stylesheet" href="style.min.css">
   <script src="script.min.js"></script>
+  <script src="https://unpkg.com/@google-cloud/vertexai"></script>
+  <style>
+    body {
+      background-color: #282c34;
+      color: #ffffff;
+    }
+
+    h1 {
+      color: #ffffff;
+    }
+
+    label {
+      color: #ffffff;
+    }
+
+    input[type="text"],
+    input[type="checkbox"],
+    select {
+      background-color: #333740;
+      color: #ffffff;
+    }
+
+    textarea {
+      background-color: #333740;
+      color: #ffffff;
+    }
+
+    .button-group input[type="submit"] {
+      background-color: #4caf50;
+      color: #ffffff;
+    }
+
+    .dropdown select {
+      background-color: #333740;
+      color: #ffffff;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      background-color: #333740;
+      color: #ffffff;
+    }
+
+    #results {
+      background-color: #333740;
+      color: #ffffff;
+    }
+
+    #advanced_options_container {
+      background-color: #333740;
+      color: #ffffff;
+    }
+
+    mark {
+      background-color: #4caf50;
+      color: #ffffff;
+    }
+  </style>
 </head>
+
 <body>
   <div class="container">
     <h1>String Sleuth</h1>
@@ -24,7 +83,7 @@
       </div>
     </form>
     <div id="results"></div>
-    <div id="advanced_options_container">
+    <div id="advanced_options_container" style="display: none;">
       <div class="dropdown">
         <label for="conversion_type">Conversion Type:</label>
         <select id="conversion_type">
@@ -42,67 +101,56 @@
       </div>
     </div>
   </div>
-
   <script>
     "pages.github.com" === window.location.hostname && document.querySelector("base").setAttribute("href", "/String-Sleuth/");
-
     const form = document.getElementById("form");
     const advancedOptionsContainer = document.getElementById("advanced_options_container");
-
+    const advancedOptions = document.getElementById("advanced_options");
+    advancedOptions.addEventListener("change", (e) => {
+      e.target.checked ? advancedOptionsContainer.style.display = "block" : advancedOptionsContainer.style.display = "none";
+    });
     form.addEventListener("submit", (e) => {
       e.preventDefault();
-
-      const baseUrl = document.getElementById("base_url").value;
+      const base_url = document.getElementById("base_url").value;
       const html = document.getElementById("html").value;
-
-      if (!baseUrl || !html) {
+      if (!base_url || !html) {
         alert("Please provide a base URL and HTML.");
         return;
       }
-
       const conversionType = document.getElementById("conversion_type").value;
       const detectBrokenLinks = document.getElementById("detect_broken_links").checked;
       const identifyAlternativeLinks = document.getElementById("identify_alternative_links").checked;
       const optimizeHtml = document.getElementById("optimize_html").checked;
-
-      searchWebsite(baseUrl, html, {
+      searchWebsite(base_url, html, {
         conversionType,
         detectBrokenLinks,
         identifyAlternativeLinks,
-        optimizeHtml,
+        optimizeHtml
       });
     });
 
-    const searchWebsite = (baseUrl, html, options) => {
+    const searchWebsite = (base_url, html, options) => {
       const xhr = new XMLHttpRequest();
-      xhr.open("GET", baseUrl);
+      xhr.open("GET", base_url);
       xhr.setRequestHeader("Content-Type", "text/html");
       xhr.onload = function () {
         if (xhr.status === 200) {
           const response = xhr.responseText;
           const parser = new DOMParser();
           const doc = parser.parseFromString(response, "text/html");
-
           const elements = doc.querySelectorAll("body *");
           elements.forEach((element) => {
             const textContent = element.textContent;
             const regex = new RegExp(html, "g");
-
             if (textContent.match(regex)) {
-              const htmlWithHighlight = element.parentElement.innerHTML.replace(
-                html,
-                `<mark>${html}</mark>`
-              );
-              const textBefore = textContent.substring(0, textContent.indexOf(html));
-              const textAfter = textContent.substring(
-                textContent.indexOf(html) + html.length
-              );
-
+              const highlightedHtml = element.parentElement.innerHTML.replace(html, `<mark>${html}</mark>`);
+              const before = textContent.substring(0, textContent.indexOf(html));
+              const after = textContent.substring(textContent.indexOf(html) + html.length);
               console.log(`URL: ${window.location.href}`);
-              console.log(`Before: ${textBefore}`);
+              console.log(`Before: ${before}`);
               console.log(`String: ${html}`);
-              console.log(`After: ${textAfter}`);
-              console.log(`HTML: ${htmlWithHighlight}`);
+              console.log(`After: ${after}`);
+              console.log(`HTML: ${highlightedHtml}`);
             }
           });
         } else {
@@ -112,11 +160,38 @@
       xhr.send();
     };
 
+    const gemini = new GeminiPro();
+    gemini.init({
+      apiKey: "AIzaSyC2G421VCZmAQSao1V2lRIzn1-kx_gFd5w",
+      engine: "text-bison-001"
+    });
+    const generateHtml = async (prompt) => {
+      const response = await gemini.generate(prompt);
+      return response.candidates[0].output;
+    };
+    const searchWithGemini = (base_url, html) => {
+      const prompt = `I am searching for the following HTML code or string on the web page at ${base_url}:\n\n${html}\n\nReturn the HTML code of the web page, highlighting all instances of the HTML code or string that I am searching for.`;
+      generateHtml(prompt).then((result) => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(result, "text/html");
+        const highlightedHtml = doc.querySelector("body").innerHTML;
+        document.getElementById("results").innerHTML = highlightedHtml;
+      });
+    };
     advancedOptions.addEventListener("change", (e) => {
-      e.target.checked
-        ? (advancedOptionsContainer.style.display = "block")
-        : (advancedOptionsContainer.style.display = "none");
+      e.target.checked ? advancedOptionsContainer.style.display = "block" : advancedOptionsContainer.style.display = "none";
+    });
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const base_url = document.getElementById("base_url").value;
+      const html = document.getElementById("html").value;
+      if (!base_url || !html) {
+        alert("Please provide a base URL and HTML.");
+        return;
+      }
+      searchWithGemini(base_url, html);
     });
   </script>
 </body>
+
 </html>
