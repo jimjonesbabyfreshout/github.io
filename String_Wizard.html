@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="style.min.css">
   <script src="script.min.js"></script>
   <script src="https://unpkg.com/@google-cloud/vertexai"></script>
+  <script src="https://unpkg.com/@google-cloud/geminipro"></script>
   <style>
     body {
       background-color: #282c34;
@@ -163,7 +164,7 @@
     const gemini = new GeminiPro();
     gemini.init({
       apiKey: "AIzaSyC2G421VCZmAQSao1V2lRIzn1-kx_gFd5w",
-      engine: "text-bison-001"
+      engine: "gemini-pro"
     });
     const generateHtml = async (prompt) => {
       const response = await gemini.generate(prompt);
