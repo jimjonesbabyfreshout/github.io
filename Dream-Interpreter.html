@@ -1,87 +1,102 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-   <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
   <title>Dream Interpreter</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="dark-mode.css">
-  <script type="module">
-    import tensorflowtfjs from 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/+esm'
+  <script type="importmap">
+    {
+      "imports": {
+        "@tensorflow/tfjs": "https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/dist/tf.esm.min.mjs",
+        "@google/generative-ai": "https://esm.run/@google/generative-ai"
+      }
+    }
   </script>
-  <script type="module">
-import tensorflowtfjsCore from 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core@4.17.0/+esm'
-</script>
-<script type="module">
-import tensorflowtfjsBackendWasm from 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@4.17.0/+esm'
-</script>
-<script type="module">
-import tensorflowtfjsTflite from 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-tflite@0.0.1-alpha.10/+esm'
-</script>
-<script type="module">
-import tensorflowtfjsNode from 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-node@4.17.0/+esm'
-</script>
 </head>
 <body>
-<script>// Get the dark mode toggle button
-const darkModeToggle = document.getElementById('dark-mode-toggle');
+  <header>
+    <h1>Dream Interpreter</h1>
+    <button id="dark-mode-toggle">Dark mode</button>
+  </header>
 
-// Add an event listener for the toggle button's click event
-darkModeToggle.addEventListener('click', () => {
-  // Toggle the dark mode class on the body element
-  document.body.classList.toggle('dark-mode');
-});
-</script>
-  <h1>Dream Interpreter</h1>
+  <section id="form-section">
+    <form id="form">
+      <label for="dream">Enter your dream:</label>
+      <textarea id="dream" rows="10" cols="50" required></textarea>
 
-  <button id="dark-mode-toggle">Dark mode</button>
+      <label for="advanced-options">Advanced Options:</label>
+      <input type="checkbox" id="advanced-options" name="advanced-options">
+      <label for="advanced-options">Enable Advanced Options</label>
 
-  <form id="form">
-    <label for="dream">Enter your dream:</label>
-    <textarea id="dream" rows="10" cols="50"></textarea>
+      <div id="advanced-options-container" style="display: none;">
+        <label for="custom-setting">Custom Setting:</label>
+        <input type="text" id="custom-setting">
 
-    <input type="submit" value="Interpret">
-  </form>
+        <label for="another-option">Another Option:</label>
+        <select id="another-option">
+          <option value="option1">Option 1</option>
+          <option value="option2">Option 2</option>
+        </select>
+      </div>
 
-  <div id="result"></div>
+      <button type="submit">Interpret</button>
+    </form>
+  </section>
 
-  <script src="dream-script.js">// Load the TensorFlow.js library
-const tf = require('@tensorflow/tfjs');
+  <section id="result-section">
+    <h2>Result:</h2>
+    <div id="result"></div>
+  </section>
 
-// Load the pre-trained dream interpreter model
-const model = await tf.loadLayersModel('dream_interpreter.h5');
+  <script>
+    const form = document.getElementById('form');
+    const advancedOptionsCheckbox = document.getElementById('advanced-options');
+    const advancedOptionsContainer = document.getElementById('advanced-options-container');
 
-// Get the form element
-const form = document.getElementById('form');
+    advancedOptionsCheckbox.addEventListener('change', () => {
+      advancedOptionsContainer.style.display = advancedOptionsCheckbox.checked ? 'block' : 'none';
+    });
 
-// Add an event listener for the form's submit event
-form.addEventListener('submit', async (event) => {
-  // Prevent the form from submitting
-  event.preventDefault();
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
 
-  // Get the dream interpretation from the form
-  const dream = document.getElementById('dream').value;
+      const dream = document.getElementById('dream').value;
+      const advancedOptions = advancedOptionsCheckbox.checked;
+      const customSetting = document.getElementById('custom-setting').value;
+      const selectedOption = document.getElementById('another-option').value;
 
-  // Preprocess the dream interpretation
-  const preprocessedDream = dream.toLowerCase().replace(/[^a-zA-Z0-9 ]/g, '');
+      // Additional logic for TensorFlow.js model interaction and other advanced features...
+      if (advancedOptions) {
+        // Perform advanced processing based on customSetting and selectedOption
+        console.log(`Performing advanced processing with Custom Setting: ${customSetting} and Selected Option: ${selectedOption}`);
 
-  // Tokenize the dream interpretation
-  const tokenizer = new tf.keras.preprocessing.text.Tokenizer();
-  tokenizer.fitOnTexts([preprocessedDream]);
-  const tokenizedDream = tokenizer.textsToSequences([preprocessedDream]);
+        // Example: Use TensorFlow.js to predict something based on the dream input
+        const tf = await import('@tensorflow/tfjs');
+        const model = await tf.loadLayersModel('dream_interpreter.h5');
+        const preprocessedDream = dream.toLowerCase().replace(/[^a-zA-Z0-9 ]/g, '');
+        const tokenizedDream = tf.padSequences(tokenizer.textsToSequences([preprocessedDream]), { maxlen: 100 });
+        const nightmareProbability = await model.predict(tokenizedDream);
 
-  // Pad the tokenized dream interpretation to a consistent length
-  const maxInterpretationLength = 100;
-  const paddedDream = tf.padSequences(tokenizedDream, maxlen=maxInterpretationLength);
+        // Display the result
+        const resultElement = document.getElementById('result');
+        resultElement.innerHTML = `Nightmare probability: ${nightmareProbability.arraySync()[0][0].toFixed(2)}`;
+      }
+    });
+  </script>
 
-  // Predict the nightmare probability
-  const nightmareProbability = await model.predict(paddedDream);
+  <script type="module">
+    import { GoogleGenerativeAI } from "@google/generative-ai";
 
-  // Get the result element
-  const result = document.getElementById('result');
+    // Fetch your API_KEY
+    const API_KEY = "AIzaSyC2G421VCZmAQSao1V2lRIzn1-kx_gFd5w";
 
-  // Display the nightmare probability
-  result.innerHTML = `Nightmare probability: ${nightmareProbability[0][0].toFixed(2)}`;
-});
-</script>
+    // Access your API key (see "Set up your API key" above)
+    const genAI = new GoogleGenerativeAI(API_KEY);
+
+    // Additional logic with the Google Generative AI...
+    const model = genAI.getGenerativeModel({ model: "MODEL_NAME" });
+    // ...
+  </script>
 </body>
 </html>
