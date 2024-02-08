@@ -2,8 +2,8 @@
 <html>
 <head>
   <title>Dream Interpreter</title>
-  <link rel="stylesheet" href="local://assets/style.css">
-  <link rel="stylesheet" href="local://assets/dark-mode.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="dark-mode.css">
   <script type="module">
     import tensorflowtfjs from 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/+esm'
   </script>
@@ -31,7 +31,7 @@ darkModeToggle.addEventListener('click', () => {
 
   <div id="result"></div>
 
-  <script src="local://assets/script.js">// Load the TensorFlow.js library
+  <script src="dream-script.js">// Load the TensorFlow.js library
 const tf = require('@tensorflow/tfjs');
 
 // Load the pre-trained dream interpreter model
