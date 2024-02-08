@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dream Interpreter</title>
+  <link rel="stylesheet" href="local://assets/style.css">
+  <link rel="stylesheet" href="local://assets/dark-mode.css">
+  <script type="module">
+    import tensorflowtfjs from 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/+esm'
+  </script>
+</head>
+<body>
+<script>// Get the dark mode toggle button
+const darkModeToggle = document.getElementById('dark-mode-toggle');
+
+// Add an event listener for the toggle button's click event
+darkModeToggle.addEventListener('click', () => {
+  // Toggle the dark mode class on the body element
+  document.body.classList.toggle('dark-mode');
+});
+</script>
+  <h1>Dream Interpreter</h1>
+
+  <button id="dark-mode-toggle">Dark mode</button>
+
+  <form id="form">
+    <label for="dream">Enter your dream:</label>
+    <textarea id="dream" rows="10" cols="50"></textarea>
+
+    <input type="submit" value="Interpret">
+  </form>
+
+  <div id="result"></div>
+
+  <script src="local://assets/script.js">// Load the TensorFlow.js library
+const tf = require('@tensorflow/tfjs');
+
+// Load the pre-trained dream interpreter model
+const model = await tf.loadLayersModel('dream_interpreter.h5');
+
+// Get the form element
+const form = document.getElementById('form');
+
+// Add an event listener for the form's submit event
+form.addEventListener('submit', async (event) => {
+  // Prevent the form from submitting
+  event.preventDefault();
+
+  // Get the dream interpretation from the form
+  const dream = document.getElementById('dream').value;
+
+  // Preprocess the dream interpretation
+  const preprocessedDream = dream.toLowerCase().replace(/[^a-zA-Z0-9 ]/g, '');
+
+  // Tokenize the dream interpretation
+  const tokenizer = new tf.keras.preprocessing.text.Tokenizer();
+  tokenizer.fitOnTexts([preprocessedDream]);
+  const tokenizedDream = tokenizer.textsToSequences([preprocessedDream]);
+
+  // Pad the tokenized dream interpretation to a consistent length
+  const maxInterpretationLength = 100;
+  const paddedDream = tf.padSequences(tokenizedDream, maxlen=maxInterpretationLength);
+
+  // Predict the nightmare probability
+  const nightmareProbability = await model.predict(paddedDream);
+
+  // Get the result element
+  const result = document.getElementById('result');
+
+  // Display the nightmare probability
+  result.innerHTML = `Nightmare probability: ${nightmareProbability[0][0].toFixed(2)}`;
+});
+</script>
+</body>
+</html>
