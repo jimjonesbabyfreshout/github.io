@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>String Wizard</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      border: 1px solid #555;
+      background-color: #333;
+    }
+    .input-group,
+    .button-group,
+    .dropdown,
+    .checkbox-group {
+      margin-bottom: 10px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input[type="text"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 5px;
+    }
+    input[type="submit"] {
+      cursor: pointer;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+    }
+    input[type="checkbox"] {
+      margin-right: 5px;
+    }
+    #results,
+    #advanced_options_container {
+      display: none;
+      margin-top: 20px;
+    }
+    mark {
+      background-color: #ffcc00;
+      color: #000;
+    }
+    .dark-mode {
+      background-color: #121212;
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>String Wizard</h1>
+    <form id="form">
+      <div class="input-group">
+        <label for="base_url">Base URL:</label>
+        <input id="base_url" type="text">
+      </div>
+      <div class="input-group">
+        <label for="html">HTML Code or String to Find:</label>
+        <textarea id="html"></textarea>
+      </div>
+      <div class="button-group">
+        <input type="submit" value="Search">
+        <label for="advanced_options">Advanced Options</label>
+        <input type="checkbox" id="advanced_options">
+      </div>
+    </form>
+    <div id="results"></div>
+    <div id="advanced_options_container" style="display: none;">
+      <div class="dropdown">
+        <label for="conversion_type">Conversion Type:</label>
+        <select id="conversion_type">
+          <option value="regular_expressions">Regular Expressions</option>
+          <option value="ignore_robots_txt">Ignore Robots.txt</option>
+        </select>
+      </div>
+      <div class="checkbox-group">
+        <label for="detect_broken_links">Detect Broken Links:</label>
+        <input type="checkbox" id="detect_broken_links">
+        <label for="identify_alternative_links">Identify Alternative Links:</label>
+        <input type="checkbox" id="identify_alternative_links">
+        <label for="optimize_html">Optimize HTML:</label>
+        <input type="checkbox" id="optimize_html">
+      </div>
+    </div>
+  </div>
+
+  <!-- Dark mode toggle -->
+  <input type="checkbox" id="darkModeToggle">
+  <label for="darkModeToggle">Dark Mode</label>
+
+  <!-- Output container -->
+  <div id="outputContainer"></div>
+
+  <script>
+    // Your provided script goes here
+    // ...
+
+    // Additional JavaScript for dark mode toggle
+    const darkModeToggle = document.getElementById('darkModeToggle');
+
+    darkModeToggle.addEventListener('change', () => {
+      document.body.classList.toggle('dark-mode', darkModeToggle.checked);
+    });
+
+    // Additional JavaScript for displaying output
+    const outputContainer = document.getElementById('outputContainer');
+
+    function displayOutput(content) {
+      outputContainer.innerHTML = content;
+    }
+  </script>
+</body>
+</html>
