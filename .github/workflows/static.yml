@@ -1,13 +1,8 @@
-# Workflow for deploying static content to GitHub Pages
-
 name: Deploy to GitHub Pages
 
 on:
-  # Trigger on pushes to the main branch
   push:
     branches: ["main"]
-
-  # Manual trigger from the Actions tab
   workflow_dispatch:
 
 permissions:
@@ -25,35 +20,29 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+
     steps:
-      # Step 1: Check out the repository
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v3
 
-      # Step 2: Prepare environment
       - name: Setup Environment
-        run: npm install  # Example for Node.js projects
+        run: npm install  # Adjust based on your project's requirements
 
-      # Step 3: Run tests
       - name: Run Tests
-        run: npm test  # Example for Node.js projects
+        run: npm test  # Modify based on your testing needs
 
-      # Step 4: Configure Pages
       - name: Setup Pages
         uses: actions/configure-pages@v3
 
-      # Step 5: Upload artifact
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v2
         with:
           path: '.'
 
-      # Step 6: Deploy to GitHub Pages
-      - name: Deploy
+      - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
 
-      # Step 7: Notify deployment status
-      - name: Notify Status
+      - name: Notify Deployment Status
         if: success()
-        run: echo "Deployment successful!"  # Replace with your notification method
+        run: echo "Deployment successful!"  # Customize with your notification method
