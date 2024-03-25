@@ -1,4 +1,4 @@
-name: Install Node.js modules and Connect to SSH and start server
+name: Install Node.js modules and Connect to SSH and Start Server
 
 on:
   push:
@@ -8,13 +8,21 @@ on:
 jobs:
   install-modules-and-connect-and-start:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
         with:
           node-version: '16'
-      - run: npm install
-      - uses: appleboy/ssh-action@master
+
+      - name: Install Node.js Modules
+        run: npm install
+
+      - name: Connect to SSH and Start Server
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: jimjonesbabyfreshout@github.com
