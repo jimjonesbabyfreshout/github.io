@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+  <title>Dream Interpreter</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="dark-mode.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "@tensorflow/tfjs": "https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/dist/tf.esm.min.mjs",
+        "@google/generative-ai": "https://esm.run/@google/generative-ai"
+      }
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <h1>Dream Interpreter</h1>
+    <button id="dark-mode-toggle">Dark mode</button>
+  </header>
+
+  <section id="form-section">
+    <form id="form">
+      <label for="dream">Enter your dream:</label>
+      <textarea id="dream" rows="10" cols="50" required></textarea>
+
+      <label for="advanced-options">Advanced Options:</label>
+      <input type="checkbox" id="advanced-options" name="advanced-options">
+      <label for="advanced-options">Enable Advanced Options</label>
+
+      <div id="advanced-options-container" style="display: none;">
+        <label for="custom-setting">Custom Setting:</label>
+        <input type="text" id="custom-setting">
+
+        <label for="another-option">Another Option:</label>
+        <select id="another-option">
+          <option value="option1">Option 1</option>
+          <option value="option2">Option 2</option>
+        </select>
+      </div>
+
+      <button type="submit">Interpret</button>
+    </form>
+  </section>
+
+  <section id="result-section">
+    <h2>Result:</h2>
+    <div id="result"></div>
+  </section>
+
+  <script>
+    const form = document.getElementById('form');
+    const advancedOptionsCheckbox = document.getElementById('advanced-options');
+    const advancedOptionsContainer = document.getElementById('advanced-options-container');
+
+    advancedOptionsCheckbox.addEventListener('change', () => {
+      advancedOptionsContainer.style.display = advancedOptionsCheckbox.checked ? 'block' : 'none';
+    });
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const dream = document.getElementById('dream').value;
+      const advancedOptions = advancedOptionsCheckbox.checked;
+      const customSetting = document.getElementById('custom-setting').value;
+      const selectedOption = document.getElementById('another-option').value;
+
+      // Additional logic for TensorFlow.js model interaction and other advanced features...
+      if (advancedOptions) {
+        // Perform advanced processing based on customSetting and selectedOption
+        console.log(`Performing advanced processing with Custom Setting: ${customSetting} and Selected Option: ${selectedOption}`);
+
+        // Example: Use TensorFlow.js to predict something based on the dream input
+        const tf = await import('@tensorflow/tfjs');
+        const model = await tf.loadLayersModel('dream_interpreter.h5');
+        const preprocessedDream = dream.toLowerCase().replace(/[^a-zA-Z0-9 ]/g, '');
+        const tokenizedDream = tf.padSequences(tokenizer.textsToSequences([preprocessedDream]), { maxlen: 100 });
+        const nightmareProbability = await model.predict(tokenizedDream);
+
+        // Display the result
+        const resultElement = document.getElementById('result');
+        resultElement.innerHTML = `Nightmare probability: ${nightmareProbability.arraySync()[0][0].toFixed(2)}`;
+      }
+    });
+  </script>
+
+  <script type="module">
+    import { GoogleGenerativeAI } from "@google/generative-ai";
+
+    // Fetch your API_KEY
+    const API_KEY = "AIzaSyC2G421VCZmAQSao1V2lRIzn1-kx_gFd5w";
+
+    // Access your API key (see "Set up your API key" above)
+    const genAI = new GoogleGenerativeAI(API_KEY);
+
+    // Additional logic with the Google Generative AI...
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    // ...
+  </script>
+</body>
+</html>
