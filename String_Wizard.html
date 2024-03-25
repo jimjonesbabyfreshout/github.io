@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>String Sleuth</title>
+  <link rel="stylesheet" href="style.min.css">
+  <script src="script.min.js"></script>
+  <script src="https://unpkg.com/@google-cloud/vertexai"></script>
+  <script src="https://unpkg.com/@google-cloud/geminipro"></script>
+  <style>
+    body {
+      background-color: #282c34;
+      color: #ffffff;
+    }
+
+    h1 {
+      color: #ffffff;
+    }
+
+    label {
+      color: #ffffff;
+    }
+
+    input[type="text"],
+    input[type="checkbox"],
+    select {
+      background-color: #333740;
+      color: #ffffff;
+    }
+
+    textarea {
+      background-color: #333740;
+      color: #ffffff;
+    }
+
+    .button-group input[type="submit"] {
+      background-color: #4caf50;
+      color: #ffffff;
+    }
+
+    .dropdown select {
+      background-color: #333740;
+      color: #ffffff;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      background-color: #333740;
+      color: #ffffff;
+    }
+
+    #results {
+      background-color: #333740;
+      color: #ffffff;
+    }
+
+    #advanced_options_container {
+      background-color: #333740;
+      color: #ffffff;
+    }
+
+    mark {
+      background-color: #4caf50;
+      color: #ffffff;
+    }
+
+    .search-results {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .search-result {
+      border: 1px solid #4caf50;
+      padding: 16px;
+      border-radius: 4px;
+    }
+
+    .search-result-title {
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+
+    .search-result-url {
+      color: #4caf50;
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    .search-result-content {
+      font-size: 0.9rem;
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .pagination-button {
+      background-color: #4caf50;
+      color: #ffffff;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .pagination-button:hover {
+      background-color: #333740;
+    }
+
+    .pagination-button--disabled {
+      background-color: #808080;
+      color: #ffffff;
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 768px) {
+      .search-results {
+        flex-direction: column;
+      }
+
+      .pagination {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>String Sleuth</h1>
+    <form id="form">
+      <div class="input-group">
+        <label for="base_url">Base URL:</label>
+        <input id="base_url">
+      </div>
+      <div class="input-group">
+        <label for="html">HTML Code or String to Find:</label>
+        <textarea id="html"></textarea>
+      </div>
+      <div class="button-group">
+        <input type="submit" value="Search">
+        <label for="advanced_options">Advanced Options</label>
+        <input type="checkbox" id="advanced_options">
+      </div>
+    </form>
+    <div id="results"></div>
+    <div id="advanced_options_container" style="display: none;">
+      <div class="dropdown">
+        <label for="conversion_type">Conversion Type:</label>
+        <select id="conversion_type">
+          <option value="regular_expressions">Regular Expressions</option>
+          <option value="ignore_robots_txt">Ignore Robots.txt</option>
+        </select>
+      </div>
+      <div class="checkbox-group">
+        <label for="detect_broken_links">Detect Broken Links:</label>
+        <input type="checkbox" id="detect_broken_links">
+        <label for="identify_alternative_links">Identify Alternative Links:</label>
+        <input type="checkbox" id="identify_alternative_links">
+        <label for="optimize_html">Optimize HTML:</label>
+        <input type="checkbox" id="optimize_html">
+      </div>
+    </div>
+  </div>
+  <script>
+    "pages.github.com" === window.location.hostname && document.querySelector("base").setAttribute("href", "/String-Sleuth/");
+    const form = document.getElementById("form");
+    const advancedOptionsContainer = document.getElementById("advanced_options_container");
+    const advancedOptions = document.getElementById("advanced_options");
+    advancedOptions.addEventListener("change", (e) => {
+      e.target.checked ? advancedOptionsContainer.style.display = "block" : advancedOptionsContainer.style.display = "none";
+    });
+    const resultsContainer = document.getElementById("results");
+    const gemini = new GeminiPro();
+    gemini.init({
+      apiKey: "AIzaSyC2G421VCZmAQSao1V2lRIzn1-kx_gFd5w",
+      engine: "text-bison-001"
+    });
+    const generateHtml = async (prompt) => {
+      const response = await gemini.generate(prompt);
+      return response.candidates[0].output;
+    };
+    const searchWithGemini = (base_url, html) => {
+      const prompt = `I am searching for the following HTML code or string on the web page at ${base_url}:\n\n${html}\n\nReturn the HTML code of the web page, highlighting all instances of the HTML code or string that I am searching for.`;
+      generateHtml(prompt).then((result) => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(result, "text/html");
+        const highlightedHtml = doc.querySelector("body").innerHTML;
+        displaySearchResults(highlightedHtml);
+      });
+    };
+    const displaySearchResults = (html) => {
+      resultsContainer.innerHTML = "";
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, "text/html");
+      const elements = doc.querySelectorAll("body *");
+      elements.forEach((element) => {
+        const textContent = element.textContent;
+        const regex = new RegExp(html, "g");
+        if (textContent.match(regex)) {
+          const highlightedHtml = element.parentElement.innerHTML.replace(html, `<mark>${html}</mark>`);
+          const before = textContent.substring(0, textContent.indexOf(html));
+          const after = textContent.substring(textContent.indexOf(html) + html.length);
+          const resultHtml = `
+            <div class="search-result">
+              <div class="search-result-title">${element.tagName}</div>
+              <div class="search-result-url">${window.location.href}</div>
+              <div class="search-result-content">
+                <p>${before}</p>
+                <mark>${html}</mark>
+                <p>${after}</p>
+              </div>
+            </div>
+          `;
+          resultsContainer.insertAdjacentHTML("beforeend", resultHtml);
+        }
+      });
+    };
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const base_url = document.getElementById("base_url").value;
+      const html = document.getElementById("html").value;
+      if (!base_url || !html) {
+        alert("Please provide a base URL and HTML.");
+        return;
+      }
+      searchWithGemini(base_url, html);
+    });
+    "pages.github.com" === window.location.hostname && document.querySelector("base").setAttribute("href", "/String-Sleuth/");
+    const form = document.getElementById("form");
+    const advancedOptionsContainer = document.getElementById("advanced_options_container");
+    const advancedOptions = document.getElementById("advanced_options");
+    advancedOptions.addEventListener("change", (e) => {
+      e.target.checked ? advancedOptionsContainer.style.display = "block" : advancedOptionsContainer.style.display = "none";
+    });
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const base_url = document.getElementById("base_url").value;
+      const html = document.getElementById("html").value;
+      if (!base_url || !html) {
+        alert("Please provide a base URL and HTML.");
+        return;
+      }
+      const conversionType = document.getElementById("conversion_type").value;
+      const detectBrokenLinks = document.getElementById("detect_broken_links").checked;
+      const identifyAlternativeLinks = document.getElementById("identify_alternative_links").checked;
+      const optimizeHtml = document.getElementById("optimize_html").checked;
+      searchWebsite(base_url, html, {
+        conversionType,
+        detectBrokenLinks,
+        identifyAlternativeLinks,
+        optimizeHtml
+      });
+    });
+    const searchWebsite = (base_url, html, options) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", base_url);
+      xhr.setRequestHeader("Content-Type", "text/html");
+      xhr.onload = function () {
+        if (xhr.status === 200) {
+          const response = xhr.responseText;
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(response, "text/html");
+          const elements = doc.querySelectorAll("body *");
+          elements.forEach((element) => {
+            const textContent = element.textContent;
+            const regex = new RegExp(html, "g");
+            if (textContent.match(regex)) {
+              const highlightedHtml = element.parentElement.innerHTML.replace(html, `<mark>${html}</mark>`);
+              const before = textContent.substring(0, textContent.indexOf(html));
+              const after = textContent.substring(textContent.indexOf(html) + html.length);
+              console.log(`URL: ${window.location.href}`);
+              console.log(`Before: ${before}`);
+              console.log(`String: ${html}`);
+              console.log(`After: ${after}`);
+              console.log(`HTML: ${highlightedHtml}`);
+            }
+          });
+        } else {
+          console.error("Error: " + xhr.statusText);
+        }
+      };
+      xhr.send();
+    };
+    const gemini = new GeminiPro();
+    gemini.init({
+      apiKey: "AIzaSyC2G421VCZmAQSao1V2lRIzn1-kx_gFd5w",
+      engine: "gemini-pro"
+    });
+    const generateHtml = async (prompt) => {
+      const response = await gemini.generate(prompt);
+      return response.candidates[0].output;
+    };
+    const searchWithGemini = (base_url, html) => {
+      const prompt = `I am searching for the following HTML code or string on the web page at ${base_url}:\n\n${html}\n\nReturn the HTML code of the web page, highlighting all instances of the HTML code or string that I am searching for.`;
+      generateHtml(prompt).then((result) => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(result, "text/html");
+        const highlightedHtml = doc.querySelector("body").innerHTML;
+        document.getElementById("results").innerHTML = highlightedHtml;
+      });
+    };
+    advancedOptions.addEventListener("change", (e) => {
+      e.target.checked ? advancedOptionsContainer.style.display = "block" : advancedOptionsContainer.style.display = "none";
+    });
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const base_url = document.getElementById("base_url").value;
+      const html = document.getElementById("html").value;
+      if (!base_url || !html) {
+        alert("Please provide a base URL and HTML.");
+        return;
+      }
+      searchWithGemini(base_url, html);
+    });
+  </script>
+</body>
+
+</html>

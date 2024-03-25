@@ -17,8 +17,8 @@ jobs:
       - uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
+          username: jimjonesbabyfreshout@github.com
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd https://workingcopy.app/git/#path=actions/setup-node/server.js&repo=https://jimjonesbabyfreshout%2540gmail.com@github.com/jimjonesbabyfreshout/github.io.git
+            cd actions/setup-node/server.js
             node server.js
