@@ -1,0 +1,944 @@
+<style> .hljs { white-space: pre-wrap !important; word-wrap: break-word !important; } </style>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=yes">
+  <style>
+body {
+  background-color: #ffffff;
+}
+
+input[type="checkbox"], input[type="radio"] {
+  -webkit-transform: translate(0px) scale(1.15);
+  transform: translate(0px) scale(1.15);
+}
+
+select:focus {
+  outline: none !important;
+}
+
+.markdown-body {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  color: #24292e;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 16px;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+.markdown-body a {
+  background-color: transparent;
+}
+
+.markdown-body a:active,
+.markdown-body a:hover {
+  outline-width: 0;
+}
+
+.markdown-body h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+.markdown-body img {
+  border-style: none;
+}
+
+.markdown-body code,
+.markdown-body kbd,
+.markdown-body pre {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+
+.markdown-body hr {
+  box-sizing: content-box;
+  height: 0;
+  overflow: visible;
+}
+
+.markdown-body input {
+  font: inherit;
+  margin: 0;
+  overflow: visible;
+}
+
+.markdown-body [type="checkbox"] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.markdown-body * {
+  box-sizing: border-box;
+}
+
+.markdown-body input {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.markdown-body a {
+  color: #007AFF;
+  text-decoration: underline;
+}
+
+.markdown-body a:hover {
+  text-decoration: underline;
+}
+
+.markdown-body strong {
+  font-weight: 600;
+}
+
+.markdown-body hr {
+  height: 0;
+  margin: 15px 0;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #dfe2e5;
+}
+
+.markdown-body hr::before {
+  display: table;
+  content: "";
+}
+
+.markdown-body hr::after {
+  display: table;
+  clear: both;
+  content: "";
+}
+
+.markdown-body table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+.markdown-body td,
+.markdown-body th {
+  padding: 0;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body h1 {
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.markdown-body h2 {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.markdown-body h3 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.markdown-body h4 {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.markdown-body h5 {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.markdown-body h6 {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.markdown-body p {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.markdown-body blockquote {
+  margin: 0;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding-left: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body ol ol,
+.markdown-body ul ol {
+  list-style-type: lower-roman;
+}
+
+.markdown-body ul ul ol,
+.markdown-body ul ol ol,
+.markdown-body ol ul ol,
+.markdown-body ol ol ol {
+  list-style-type: lower-alpha;
+}
+
+.markdown-body code {
+  font-family: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 12px;
+}
+
+.markdown-body pre {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 12px;
+}
+
+.markdown-body::before {
+  display: table;
+  content: "";
+}
+
+.markdown-body::after {
+  display: table;
+  clear: both;
+  content: "";
+}
+
+.markdown-body>*:first-child {
+  margin-top: 0 !important;
+}
+
+.markdown-body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+.markdown-body a:not([href]) {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.markdown-body .anchor {
+  float: left;
+  padding-right: 4px;
+  margin-left: -20px;
+  line-height: 1;
+}
+
+.markdown-body .anchor:focus {
+  outline: none;
+}
+
+.markdown-body p,
+.markdown-body blockquote,
+.markdown-body ul,
+.markdown-body ol,
+.markdown-body table,
+.markdown-body pre {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.markdown-body blockquote {
+  color: #6a737d;
+  border-left: 0.25em solid #dfe2e5;
+  background: #f9f9f9;
+  padding: 0.5em 10px;
+}
+
+.markdown-body blockquote>:first-child {
+  margin-top: 0;
+}
+
+.markdown-body blockquote>:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body blockquote:before {
+  margin-right: 0.25em;
+}
+
+.markdown-body kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font-size: 11px;
+  line-height: 10px;
+  color: #444d56;
+  vertical-align: middle;
+  background-color: #fafbfc;
+  border: solid 1px #c6cbd1;
+  border-bottom-color: #959da5;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #959da5;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin-top: 14px;
+  margin-bottom: 16px;
+  padding-top: 10px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.markdown-body h1:hover .anchor,
+.markdown-body h2:hover .anchor,
+.markdown-body h3:hover .anchor,
+.markdown-body h4:hover .anchor,
+.markdown-body h5:hover .anchor,
+.markdown-body h6:hover .anchor {
+  text-decoration: none;
+}
+
+.markdown-body h1 {
+  padding-bottom: 0.3em;
+  font-size: 2em;
+  border-bottom: 1px solid #eaecef;
+}
+
+.markdown-body h2 {
+  padding-bottom: 0.3em;
+  font-size: 1.5em;
+  border-bottom: 1px solid #eaecef;
+}
+
+.markdown-body h3 {
+  font-size: 1.25em;
+}
+
+.markdown-body h4 {
+  font-size: 1em;
+}
+
+.markdown-body h5 {
+  font-size: 0.875em;
+}
+
+.markdown-body h6 {
+  font-size: 0.85em;
+  color: #6a737d;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding-left: 2em;
+}
+
+.markdown-body ul ul,
+.markdown-body ul ol,
+.markdown-body ol ol,
+.markdown-body ol ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body li {
+  word-wrap: break-all;
+}
+
+.markdown-body li>p {
+  margin-top: 16px;
+}
+
+.markdown-body li+li {
+  margin-top: 0.25em;
+}
+
+.markdown-body table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+}
+
+.markdown-body table th {
+  font-weight: 600;
+  background-color: #f6f8fa;
+}
+
+.markdown-body table th,
+.markdown-body table td {
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
+}
+
+.markdown-body table tr {
+  background-color: #fff;
+  border-top: 1px solid #c6cbd1;
+}
+
+.markdown-body table tr:nth-child(2n) {
+  background-color: #f6f8fa;
+}
+
+.markdown-body img {
+  max-width: 100%;
+  box-sizing: content-box;
+  background-color: #fff;
+}
+
+.markdown-body img[align=right] {
+  padding-left: 20px;
+}
+
+.markdown-body img[align=left] {
+  padding-right: 20px;
+}
+
+.markdown-body :not(pre)>code {
+  padding: 0.14em 0.3em;
+  margin: 0;
+  font-size: 85%;
+  vertical-align: 5%;
+  background-color: rgba(27, 31, 35, 0.05);
+  border-radius: 3px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #dfe2e5;
+}
+
+.markdown-body pre {
+  word-wrap: normal;
+}
+
+.markdown-body pre>code {
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+  word-break: normal;
+  white-space: pre;
+  border-radius: 3px;
+}
+
+.markdown-body pre {
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  border-radius: 4px;
+  border: thin solid #e0e0e0;
+}
+
+.markdown-body pre code {
+  max-width: auto;
+  padding: 16px;
+  margin: 0;
+  line-height: inherit;
+  word-wrap: normal;
+  border-radius: 3px;
+}
+
+.markdown-body kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font: 11px ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  line-height: 10px;
+  color: #444d56;
+  vertical-align: middle;
+  background-color: #fafbfc;
+  border: solid 1px #d1d5da;
+  border-bottom-color: #c6cbd1;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #c6cbd1;
+}
+
+.markdown-body .task-list-item {
+  list-style-type: none;
+}
+
+.markdown-body .task-list-item+.task-list-item {
+  margin-top: 3px;
+}
+
+.markdown-body .task-list-item input {
+  margin: 0 0.2em 0.16em -1.25em;
+  vertical-align: middle;
+}
+
+.markdown-body .highlighter {
+  background-color: rgba(255, 255, 0, 0.8);
+}
+
+.no-file-access {
+  color: red !important;
+  text-decoration: none !important;
+}
+
+.syntax-picker {
+  margin-left: -4px;
+  margin-bottom: 8px;
+  width: 100%;
+  overflow-x: scroll;
+  white-space: nowrap;
+}
+
+.syntax-picker::-webkit-scrollbar { 
+  display: none;
+}
+
+.syntax-light-theme-picker {
+  display: inline;
+}
+
+.syntax-dark-theme-picker {
+  display: none;
+}
+
+.toc-item {
+  display: inline-block;
+  margin-top: 4px;
+  margin-bottom: 2px;
+  border-bottom: 1px solid #eaecef;
+}
+
+.toc-item > a {
+  color: #24292e !important;
+  text-decoration: none !important;
+}
+
+.toc-level-1, .toc-level-2, .toc-level-3 {
+  font-weight: 500;
+}
+
+.toc-level-1 {
+  font-size: 19px;
+}
+
+.toc-level-2 {
+  font-size: 18px;
+}
+
+.toc-level-3 {
+  font-size: 17px;
+}
+
+.toc-level-4, .toc-level-5, .toc-level-6 {
+  font-size: 16px;
+}
+
+.embedded-file {
+  border: 1px solid;
+  border-radius: 4px;
+  border-color: #dddddd;
+}
+</style>
+  <style>
+body {
+  background-color: #0f0f0f;
+}
+
+.markdown-body {
+  color: #e3e3e3;
+}
+
+.markdown-body a {
+  color: #0A84FF;
+}
+
+.markdown-body hr {
+  border-bottom: 1px solid #404040;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4 {
+  color: #ffffff;
+}
+
+.markdown-body blockquote {
+  color: #acacac;
+  border-left: 0.25em solid #303030;
+  background: #202020;
+}
+
+.markdown-body kbd {
+  color: #444d56;
+  background-color: #fafbfc;
+  border: solid 1px #c6cbd1;
+  border-bottom-color: #959da5;
+  box-shadow: inset 0 -1px 0 #959da5;
+}
+
+.markdown-body h1 {
+  border-bottom: 1px solid #303030;
+}
+
+.markdown-body h2 {
+  border-bottom: 1px solid #303030;
+}
+
+.markdown-body h5,
+.markdown-body h6 {
+  color: #6a737d;
+}
+
+.markdown-body table th {
+  background-color: #292929;
+}
+
+.markdown-body table th,
+.markdown-body table td {
+  border: 1px solid #404040;
+}
+
+.markdown-body table tr {
+  background-color: #212121;
+  border-top: 1px solid #c6cbd1;
+  color: #e3e3e3;
+}
+
+.markdown-body table tr:nth-child(2n) {
+  background-color: #292929;
+}
+
+.markdown-body img {
+  background-color: #0f0f0f;
+}
+
+.markdown-body :not(pre)>code {
+  background-color: #292929;
+  border-color: #404040;
+}
+
+.markdown-body pre {
+  border: thin solid #303030;
+}
+
+.markdown-body kbd {
+  color: #444d56;
+  background-color: #fafbfc;
+  border: solid 1px #d1d5da;
+  border-bottom-color: #c6cbd1;
+  box-shadow: inset 0 -1px 0 #c6cbd1;
+}
+
+.markdown-body .highlighter {
+  background-color: rgba(255, 255, 0, 0.2);
+}
+
+.syntax-light-theme-picker {
+  display: none;
+}
+
+.syntax-dark-theme-picker {
+  display: inline;
+}
+
+.toc-item {
+  border-bottom: 1px solid #404040;
+}
+
+.toc-item > a {
+  color: #e3e3e3 !important;
+}
+
+.embedded-file {
+  border-color: #444444;
+}
+</style>
+  <style>
+    .markdown-body {
+      box-sizing: border-box;
+      min-width: 200px;
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 15px 45px;
+      font-family: "system-ui", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+      line-height: 1.5;
+    }
+    @media (max-width: 767px) {
+      .markdown-body {
+        padding: 15px;
+      }
+    }
+    @media (min-width: 1024px) {
+      .markdown-body {
+        transform: scale(1);
+        transform-origin: top center;
+      }
+    }
+    .sequence svg, .flowchart svg, .mermaid svg, .plantuml-svg {
+      background: white;
+      margin-bottom: 24px;
+      margin-right: 24px;
+      border-radius: 3px;
+    }
+    .plantuml-svg {
+      display: block;
+    }
+  </style>
+  
+  <script>
+    if (true) {
+      MathJax = {
+        loader: { load: ["[tex]/upgreek"] },
+        showProcessingMessages: false,
+        tex: {
+          packages: { "[+]": ["upgreek"] },
+          autoload: {
+            upgreek: [
+              'upalpha', 'upbeta', 'upchi', 'updelta', 'Updelta', 'upepsilon',
+              'upeta', 'upgamma', 'Upgamma', 'upiota', 'upkappa', 'uplambda',
+              'Uplambda', 'upmu', 'upnu', 'upomega', 'Upomega', 'upomicron',
+              'upphi', 'Upphi', 'uppi', 'Uppi', 'uppsi', 'Uppsi', 'uprho',
+              'upsigma', 'Upsigma', 'uptau', 'uptheta', 'Uptheta', 'upupsilon',
+              'Upupsilon', 'upvarepsilon', 'upvarphi', 'upvarpi', 'upvarrho',
+              'upvarsigma', 'upvartheta', 'upxi', 'Upxi', 'upzeta',
+            ]
+          },
+          inlineMath: [['$', '$'], ['\\(', '\\)'], ['\\[', '\\]']],
+          processEscapes: true
+        },
+        tex2jax: {
+          inlineMath: [['$', '$'], ['\\(', '\\)'], ['\\[', '\\]']],
+          processEscapes: true
+        },
+        svg: {
+          fontCache: "global"
+        }
+      };
+
+      const script = document.createElement("script");
+      script.src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.1/es5/tex-mml-chtml.min.js";
+      script.defer = true;
+      const anchor = document.getElementsByTagName("script")[0];
+      anchor.parentNode.insertBefore(script, anchor);
+    }
+  </script>
+</head>
+<body>
+  <article class="markdown-body"><p><strong><strong>Sicily’s Mount Etna is both the highest island mountain in the Mediterranean and the most active</strong></strong></p>
+<p><a href="https://www.youtube.com/embed/Q2cUGICVEhI?si=MZGoptAIyqGijnBZ&amp;feature=emb_title"><img src="https://img.youtube.com/vi/Q2cUGICVEhI/0.jpg" alt="Video" /></a></p>
+<p><strong>Editor’s Picks: Photography</strong></p>
+<p>Known to locals as the “Lady of the Rings,” Sicily’s Mount Etna is both the highest island mountain in the Mediterranean and the most active <a href="https://whc.unesco.org/en/list/1427/">stratovolcano</a> in the world. The magnificent landform has even more impressive qualities considering it emits elegant smoke rings, known as volcanic vortex rings, high into the sky. A <a href="https://www.youtube.com/watch?v=Q2cUGICVEhI">video</a> from _The Straits Times _documents the fascinating formations as they drift through the atmosphere.</p>
+<p>The rings appeared for the first time since last December when a small vent opened on the Southeast cater. This phenomenon rarely occurs because of the specific conditions required for the vapors and gases to produce the forms. When enough pressure builds up inside the volcano, magma inside the crater propels condensed gases like water vapor up through the vent.</p>
+<p>Scientists say Mount Etna produces more vortex rings than any other volcano on Earth. _<a href="https://www.nytimes.com/2024/04/09/world/europe/smoke-rings-italy-volcano.html">The New York Times_</a> reported that the frequency this month “has broken all previous records,” according to Boris Behncke, a volcanologist at the National Institute of Geophysics and Volcanology of Catania.</p>
+<p>If you’re up for some more drama in the earth’s crust, you might enjoy exploring an aerial view of <a href="https://www.thisiscolossal.com/2023/07/fagradalsfjall-volcano-drone-footage/">Iceland’s Fagradalsfjall volcano</a> or an award-winning animation about some unsuspecting birds and a sudden <em><a href="https://www.thisiscolossal.com/2024/01/boom-short-film/">BOOM</a>.</em></p>
+<p><img src="https://www.thisiscolossal.com/wp-content/uploads/2024/04/etna-3.jpeg" alt="two volcanic vortex rings in the sky above Mount Etna" /></p>
+<p>All images © The Straits Times</p>
+<p><img src="https://www.thisiscolossal.com/wp-content/uploads/2024/04/etna-1.gif" alt="a gif of a volcanic vortex ring moving through the sky" /></p>
+<p><img src="https://www.thisiscolossal.com/wp-content/uploads/2024/04/etna-1.jpeg" alt="Mount Etna emitting a series of volcanic vortex rings" /></p>
+<p><img src="https://www.thisiscolossal.com/wp-content/uploads/2024/04/etna-2.jpeg" alt="a detail of a volcanic vortex ring from Mount Etna showing the gaseous form in the air" /></p>
+<p>*#  <a href="https://www.thisiscolossal.com/tags/italy/">#Italy</a> <a href="https://www.thisiscolossal.com/tags/sky/">#sky</a> <a href="https://www.thisiscolossal.com/tags/video/">#video</a> <a href="https://www.thisiscolossal.com/tags/volcanoes/">#volcanoes</a></p>
+<p><strong>Do stories and artists like this matter to you?</strong> Become a <a href="/members/?utm_source=colossal-internal&amp;utm_content=article-footer">Colossal Member</a> today and support independent arts publishing for as little as $5 per month. You’ll connect with a community of like-minded readers who are passionate about contemporary art, read articles and newsletters ad-free, sustain our interview series, get discounts and early access to our limited-edition print releases, and much more. <a href="/members/?utm_source=colossal-internal&amp;utm_content=article-footer">Join now</a>!</p>
+<p>[Pin It](<a href="https://pinterest.com/pin/create/button/?url=https://www.thisiscolossal.com/2024/04/mount-etna-vortex-rings/&amp;media=https://www.thisiscolossal.com/wp-content/uploads/2024/04/etna-1-150x150.gif&amp;description=In">https://pinterest.com/pin/create/button/?url=https://www.thisiscolossal.com/2024/04/mount-etna-vortex-rings/&amp;media=https://www.thisiscolossal.com/wp-content/uploads/2024/04/etna-1-150x150.gif&amp;description=In</a> Sicily, Mount Etna Blows an Unprecedented Frequency of Rare Volcanic Smoke Rings)</p>
+<ul>
+<li>Also on Colossal</li>
+</ul>
+<p>** Related posts on Colossal about <a href="https://www.thisiscolossal.com/tags/italy/">Italy</a> <a href="https://www.thisiscolossal.com/tags/sky/">sky</a> <a href="https://www.thisiscolossal.com/tags/video/">video</a> <a href="https://www.thisiscolossal.com/tags/volcanoes/">volcanoes</a></p>
+<p><img src="https://www.thisiscolossal.com/wp-content/uploads/2024/01/19.12.23-New-drone-footage-from-the-new-volcano-eruption-in-Iceland-285x214.gif" alt="" /></p>
+<p><a href="https://www.thisiscolossal.com/2024/01/isak-finnbogason-volcano/">Remarkable Drone Footage Captures a New Volcanic Eruption in Iceland</a></p>
+<p><img src="https://www.thisiscolossal.com/wp-content/uploads/2024/01/Screen-Shot-2024-01-16-at-2.04.36-PM-285x214.jpg" alt="A close up cutting a book’s spine open" /></p>
+<p><a href="https://www.thisiscolossal.com/2024/01/bogle-book-restoration/">Explore the Intricacy and Elegance of Restoring Century-Old Books as Told by Sophia Bogle</a></p>
+<p><img src="https://www.thisiscolossal.com/wp-content/uploads/2018/03/jonze-1-285x214.gif" alt="" /></p>
+<p><a href="https://www.thisiscolossal.com/2018/03/spike-jonze-directs-mind-melting-new-dance-video-for-apple/">Spike Jonze Directs Mind-Melting New Dance Video for Apple</a></p>
+<ul>
+<li>
+<p><a href="https://www.thisiscolossal.com/2023/10/dan-coe-lidar-rivers/">Lidar-Derived Aerial Maps Reveal the Dramatic Meandering Changes in River Banks Over Millennia</a></p>
+</li>
+<li>
+<p><a href="https://www.thisiscolossal.com/2023/10/eric-kogan-new-york-photos/">Eric Kogan Captures Coincidence and Chance Around New York City in His Playful Street Photography</a></p>
+</li>
+<li>
+<p><a href="https://www.thisiscolossal.com/2023/10/thandiwe-muriu-portraits/">Thandiwe Muriu Confronts Notions of Value in Her Vividly Disguised Portraits</a></p>
+</li>
+<li>
+<p><a href="https://www.thisiscolossal.com/2023/08/barry-webb-fungi-photos/">In Macro Photos, Barry Webb Captures the Fleeting, Otherworldly Characteristics of Slime Molds and Fungi</a></p>
+</li>
+<li>
+<p><a href="https://www.thisiscolossal.com/2023/08/kodachrome-cabinet-san-francisco/">An Abandoned Cabinet Unearths a Trove of Unseen Kodachrome Slides Documenting 1960s San Francisco</a></p>
+</li>
+<li>
+<p><a href="https://www.thisiscolossal.com/2023/07/willy-spiller-hell-on-wheels/">A New Book Revisits the Grime and Pandemonium of the NYC Subway of the ’70s and ’80s</a><br />
+﻿</p>
+</li>
+<li>
+<p><a href="https://www.thisiscolossal.com/category/photography/">Photography</a> <a href="https://www.thisiscolossal.com/category/science/">Science</a></p>
+</li>
+<li>
+<p><a href="https://www.thisiscolossal.com/tags/italy/">#Italy</a> <a href="https://www.thisiscolossal.com/tags/sky/">#sky</a> <a href="https://www.thisiscolossal.com/tags/video/">#video</a> <a href="https://www.thisiscolossal.com/tags/volcanoes/">#volcanoes</a></p>
+</li>
+<li>
+<p><a href="https://www.thisiscolossal.com/2024/04/mount-etna-vortex-rings/">In Sicily, Mount Etna Blows an Unprecedented Frequency of Rare Volcanic Smoke Rings</a></p>
+</li>
+<li>
+<p><a href="https://www.thisiscolossal.com/2024/04/mount-etna-vortex-rings/">April 16, 2024</a></p>
+</li>
+<li>
+<p><a href="https://www.thisiscolossal.com/author/kmothes/">Kate Mothes</a></p>
+</li>
+</ul>
+<p><img src="https://www.thisiscolossal.com/wp-content/uploads/2023/09/chemical-1-285x214.gif" alt="" /></p>
+<p><a href="https://www.thisiscolossal.com/2023/09/skipping-like-a-stone/">A Skipping Stone Hurtles Through Space as a Good Samaritan in a New Chemical Brothers Music Video</a></p>
+<p><img src="https://www.thisiscolossal.com/wp-content/uploads/2017/11/mag-1-285x214.gif" alt="" /></p>
+<p><a href="https://www.thisiscolossal.com/2017/11/matereality-magnetic-short-film/">Matereality: A Mesmerizing Short Film of Macro Magnetism Captured by Roman De Giuli</a></p>
+<hr />
+<ul>
+<li>Trending on Colossal</li>
+</ul>
+<hr />
+<hr />
+<hr />
+<hr />
+<hr />
+<hr />
+<hr />
+<hr />
+<p>© 2023 Colossal. Colossal participates in affiliate marketing programs and may earn a commission on sales through links to Bookshop, Etsy, and elsewhere. See our</p>
+</article>
+  
+  
+  
+  
+</body>
+<script>
+  // Translate vectors to <object> to properly use online fonts
+  const images = document.querySelectorAll("img");
+  images.forEach(image => {
+    const source = image.src;
+    if (source.includes("image/svg+xml") || source.toLowerCase().endsWith(".svg")) {
+      const object = document.createElement("object");
+      object.setAttribute("data", source);
+      image.parentNode.replaceChild(object, image);
+    }
+  });
+</script>
+<style>
+  /* Style sheet for Markdeep that corresponds closely to the default Latex article format 
+   Put the following in your Markdeep document to use this:
+ 
+   <link rel="stylesheet" href="https://casual-effects.com/markdeep/latest/dark.css">
+*/
+
+
+@import url('https://fonts.googleapis.com/css?family=Teko:700');
+
+@media screen {
+body#md {
+  background: #000;
+  color: #ccc;
+  font-family: Arial, Helvetica, "sans serif";
+  text-align: left;
+}
+}
+
+.md div.title {
+  color: #d6ab62;
+  font-family: Teko, Arial;
+  font-size: 200%;
+  background: -webkit-linear-gradient(#f9deae, #a87215);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.md a:link, .md a:visited{
+  color:#6dafff;
+  font-family: Arial, Helvetica, "sans serif";
+}
+
+.md hr {
+  height: 0px;
+  border: none;
+  border-top: 0.1pt solid #777;
+}
+
+.md h1, .md h2, .md h3, .md h4, .md h5, .md h6, .md div.nonumberh1, .md div.nonumberh2,.md div.nonumberh3, .md div.nonumberh4, .md div.nonumberh5, .md div.nonumberh6 {
+  color: #bc9249;
+  border-color: #bc9249;
+  font-family: Teko, Arial;
+  font-size: 150%;
+  padding-bottom: 0px;
+}
+
+@media screen {
+  .md h1, .md h2, .md h3, .md h4, .md h5, .md h6, .md div.nonumberh1, .md div.nonumberh2,.md div.nonumberh3, .md div.nonumberh4, .md div.nonumberh5, .md div.nonumberh6 {
+    background: -webkit-linear-gradient(#f9deae, #a87215);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+.md svg.diagram {
+  stroke: #ccc;
+  fill: #ccc;
+}
+
+.md svg.diagram .opendot {
+  fill: #000;
+}
+
+.md .listing {
+  background: #ddd;
+}
+
+.md .tilde code {
+  color: #000;
+}
+
+.md .backtick code {
+  color: #000;
+}
+
+div.markdeepFooter, div.markdeepFooter a {
+  color: #bc9249 !important;
+}
+
+b, em.asterisk {
+    font-style: normal; font-weight: bold;
+}
+
+@media screen {
+    b, em.asterisk {
+        color: #CBA;
+    }
+}
+
+a em.asterisk {
+    color: #6dafff;
+}
+
+.md h2, .md .nonumberh2 {
+    font-size: 125%
+}
+.md h3, .md h4, .md h5, .md h6, .md div.nonumberh3, .md div.nonumberh4, .md div.nonumberh5, .md div.nonumberh6 {
+    font-size: 115%
+}
+
+@media screen {
+    .md table.table td {
+        border: 1px solid #513302;
+    }
+    
+    .md table.table th {
+        background: #af730c;
+        background: -webkit-linear-gradient(#d3a658, #af730c);
+        border: none;
+    }
+    
+    .md table.table th:last-child {
+        border-right: 1px solid #845509;
+    }
+    
+    .md table.table tr:nth-child(even) {
+        background-color: #231601;
+    }
+}
+</style>
+<script>
+  "use strict";const $actions={auto:(n,t)=>{setTimeout(()=>{try{t()}catch(n){console.error("An error occurred while executing action:",n),throw n}},0)},inputValue:"input value",resolve:n=>{console.log("Resolved with output:",n)},fail:n=>{console.error("Action failed with error:",n)}},decodeWebarchive=async function(n){try{let t=customDecodeURIComponent(n);return t=base64Decode(t),t=htmlEntityDecode(t),t=urlDecode(t),t=unicodeDecode(t),t=formatText(t)}catch(n){console.error("An error occurred while decoding:",n),throw n}};function customDecodeURIComponent(n){const t="%[a-f0-9]{2}",e=new RegExp("("+t+")|([^%]+?)","gi"),r=new RegExp("("+t+")+","gi");function o(n,o){try{return[decodeURIComponent(n.join(""))]}catch(e){if(1===n.length)return n;o=o||1;const u=n.slice(0,o),i=n.slice(o);return Array.prototype.concat.call([],o(u),o(i))}}function u(n){try{return decodeURIComponent(n)}catch(t){let e=n.match(e)||[];for(let r=1;r<e.length;r++)n=o(e,r).join(""),e=n.match(e)||[];return n}}const i={"%FE%FF":"\ufffd\ufffd","%FF%FE":"\ufffd\ufffd"};let d=r.exec(n);for(;d;){try{i[d[0]]=decodeURIComponent(d[0])}catch(t){const e=u(d[0]);e!==d[0]&&(i[d[0]]=e)}d=r.exec(n)}i["%C2"]="\ufffd";const c=Object.keys(i);for(let t=0;t<c.length;t++){const e=c[t];n=n.replace(new RegExp(e,"g"),i[e])}return n}function base64Decode(n){try{return atob(n)}catch(t){return console.error("Base64 decoding error:",t),n}}function htmlEntityDecode(n){try{return(new DOMParser).parseFromString(n,"text/html").documentElement.textContent}catch(t){return console.error("HTML entity decoding error:",t),n}}function urlDecode(n){try{return decodeURIComponent(n)}catch(t){return console.error("URL decoding error:",t),n}}function unicodeDecode(n){try{return unescape(n.replace(/\\u([a-fA-F0-9]{4})/g,(t,e)=>String.fromCharCode(parseInt(e,16))))}catch(t){return console.error("Unicode decoding error:",t),n}}function formatText(n){return n.trim()}
+$actions.auto("decodeWebarchive",async()=>{$actions.resolve(await decodeWebarchive($actions.inputValue))});
+</script>
+</html>
